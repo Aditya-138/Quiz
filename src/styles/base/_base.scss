@@ -6,3 +6,15 @@
 body {
     font-family: sans-serif;
 }
+
+.toast-invalid {
+    background-color: #F44336;
+    border-radius: 5px !important;
+    color: #f8f8f8 !important;
+}
+
+.toast-valid {
+    background-color: #4caf50;
+    border-radius: 5px !important;
+    color: #f8f8f8 !important;
+}
