@@ -4,6 +4,9 @@ import M from 'materialize-css';
 
 import questions from '../../questions.json';
 import isEmpty from '../../utils/is-empty';
+import correctNotification from '../../sounds/correct.mp3'
+import wrongNotification from '../../sounds/wrong.mp3'
+import buttonNotification from '../../sounds/click-234708.mp3'
 
 class Play extends Component {
     constructor (props) {
@@ -44,6 +47,7 @@ class Play extends Component {
                 currentQuestion,
                 nextQuestion,
                 previousQuestion,
+                numberofQuestions : questions.length,
                 answer
             }) 
         }
@@ -51,13 +55,27 @@ class Play extends Component {
 
     handleOptionClick = (e) =>{
         if(e.target.innerHTML.toLowerCase() === this.state.answer.toLowerCase()){
+            setTimeout(() => {
+                document.getElementById('correct-sound').play();
+            },500)
             this.correctAnswer();
         }
         else {
+            setTimeout(() => {
+                document.getElementById('wrong-sound').play();
+            },500)
             this.wrongAnswer();
         }
     }
 
+    handleButtonClick =  () => {
+        this.playButtonSound();
+    };
+
+    playButtonSound =  () => {
+        document.getElementById('button-sound').play();
+    };
+ 
     correctAnswer = () => {
         M.toast({
             html : 'Correct Answer',
@@ -91,10 +109,15 @@ class Play extends Component {
     }
 
     render (){
-        const { currentQuestion } = this.state;
+        const { currentQuestion,currentQuestionIndex } = this.state;
         return (
             <Fragment>
                 <Helmet><title>Quiz page</title></Helmet>
+                <Fragment>
+                    <audio id = "correct-sound" src={correctNotification}></audio>
+                    <audio id = "wrong-sound" src={wrongNotification}></audio>
+                    <audio id = "button-sound" src={buttonNotification}></audio>
+                </Fragment>
                     <div className="questions">
                         <h2>Quiz Mode</h2>
                         <div className="lifeline-container">
@@ -107,7 +130,7 @@ class Play extends Component {
                         </div>
                         <div>
                             <p>
-                                <span className='left' style={{ float : 'left'}}>1 of 15</span>
+                                <span className='left' style={{ float : 'left'}}> {currentQuestionIndex+1} of {questions.length}</span>
                                <span className='right'>2:15<span className="mdi mdi-clock-outline mdi-24px"></span></span>
                             </p>
                         </div>
@@ -122,9 +145,9 @@ class Play extends Component {
                     </div>
 
                     <div className="button-container">
-                        <button>Previous</button>
-                        <button>Next</button>
-                        <button>Quit</button>
+                        <button onClick={this.handleButtonClick}>Previous</button>
+                        <button onClick={this.handleButtonClick}>Next</button>
+                        <button onClick={this.handleButtonClick}>Quit</button>
                     </div>
                     </div>
             </Fragment>
