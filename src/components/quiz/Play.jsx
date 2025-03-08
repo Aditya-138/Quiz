@@ -109,7 +109,7 @@ class Play extends Component {
     }
 
     render (){
-        const { currentQuestion,currentQuestionIndex } = this.state;
+        const { currentQuestion,currentQuestionIndex,numberofQuestions } = this.state;
         return (
             <Fragment>
                 <Helmet><title>Quiz page</title></Helmet>
@@ -130,7 +130,7 @@ class Play extends Component {
                         </div>
                         <div>
                             <p>
-                                <span className='left' style={{ float : 'left'}}> {currentQuestionIndex+1} of {questions.length}</span>
+                                <span className='left' style={{ float : 'left'}}> {currentQuestionIndex+1} of {numberofQuestions}</span>
                                <span className='right'>2:15<span className="mdi mdi-clock-outline mdi-24px"></span></span>
                             </p>
                         </div>
