@@ -159,6 +159,10 @@ class Play extends Component {
 
         options.forEach(option => {
             option.style.visibility='visible';
+        });
+
+        this.setState({
+            usedFiftyFifty:false
         })
     }
 
@@ -192,9 +196,90 @@ class Play extends Component {
         }
     }
  
+    // handleFiftyFifty = () => {
+    //     if(this.state.fiftyFifty > 0 && this.state.usedFiftyFifty === false){
+    //         const options = document.querySelectorAll('.option');
+    //         const randomNumbers = [];
+    //         let indexOfAnswer;
+
+    //         options.forEach((option,index) => {
+    //             if(option.innerHTML.toLowerCase() === this.state.answer.toLowerCase){
+    //                 indexOfAnswer = index;
+    //             }
+    //         });
+
+    //         let count =0;
+    //         do {
+    //             const randomNumber = Math.round(Math.random() *3);
+    //             if(randomNumber !== indexOfAnswer){
+    //                 if (randomNumbers.length<2 && randomNumbers.includes(randomNumber) && !randomNumbers.includes(indexOfAnswer)){
+    //                     randomNumbers.push(randomNumber);
+    //                     count++;
+    //                 }else {
+    //                     while(true){
+    //                         const newRandomNumber = Math.round(Math.random() *3);
+    //                         if(!randomNumbers.includes(newRandomNumber) && !randomNumbers.includes(indexOfAnswer)){
+    //                             randomNumbers.push(newRandomNumber);
+    //                             count ++;
+    //                             break;
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         } while (count < 2);
+    //         options.forEach((option,index)=> {
+    //             if(randomNumbers.includes(index)){
+    //                 option.style.visibility = 'hidden';
+    //             }
+    //         });
+    //         this.setState(prevState => ({
+    //             fiftyFifty: prevState.fiftyFifty -1,
+    //             usedFiftyFifty: true
+    //         }))
+    //     }
+    // }
+
+    handleFiftyFifty = () => {
+        if (this.state.fiftyFifty > 0 && this.state.usedFiftyFifty === false) {
+            const options = document.querySelectorAll('.option');
+            const randomNumbers = [];
+            let indexOfAnswer;
+    
+            // Find the index of the correct answer
+            options.forEach((option, index) => {
+                if (option.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
+                    indexOfAnswer = index;
+                }
+            });
+    
+            let count = 0;
+            while (count < 2) {
+                const randomNumber = Math.floor(Math.random() * 4); // Generate a random number between 0 and 3
+                // Ensure the random number is not the index of the correct answer and is not already in the randomNumbers array
+                if (randomNumber !== indexOfAnswer && !randomNumbers.includes(randomNumber)) {
+                    randomNumbers.push(randomNumber);
+                    count++;
+                }
+            }
+    
+            // Hide the options corresponding to the random numbers (excluding the correct answer)
+            options.forEach((option, index) => {
+                if (randomNumbers.includes(index)) {
+                    option.style.visibility = 'hidden';
+                }
+            });
+    
+            // Update the state to reflect that the fifty-fifty option was used
+            this.setState(prevState => ({
+                fiftyFifty: prevState.fiftyFifty - 1,
+                usedFiftyFifty: true
+            }));
+        }
+    }
+    
 
     render (){
-        const { currentQuestion,currentQuestionIndex,numberofQuestions,hints } = this.state;
+        const { currentQuestion,currentQuestionIndex,numberofQuestions,hints,fiftyFifty } = this.state;
         return (
             <Fragment>
                 <Helmet><title>Quiz page</title></Helmet>
@@ -207,12 +292,12 @@ class Play extends Component {
                         <h2>Quiz Mode</h2>
                         <div className="lifeline-container">
                             <p>
-                                <span className="mdi mdi-set-center mdi-24px lifeline-icon"></span>
-                                <span className="lifeline">2</span>
+                                <span onClick={this.handleFiftyFifty} className="mdi mdi-set-center mdi-24px lifeline-icon"></span>
+                                <span className="lifeline">{fiftyFifty}</span>
                             </p>
                             <p>
                                 <span  onClick={this.handleHints} className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"></span>
-                                <span  >{hints}</span>
+                                <span  className="lifeline">{hints}</span>
                             </p>
                         </div>
                         <div>
