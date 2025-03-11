@@ -26,6 +26,7 @@ class Play extends Component {
             hints : 5,
             fiftyFifty :2,
             usedFiftyFifty :false,
+            previousRandomNumbers : [],
             time :{}
         };
     }
@@ -48,7 +49,10 @@ class Play extends Component {
                 nextQuestion,
                 previousQuestion,
                 numberofQuestions : questions.length,
-                answer
+                answer,
+                previousRandomNumbers:[]
+            },() => {
+                this.showOptions();
             }) 
         }
     };
@@ -150,8 +154,47 @@ class Play extends Component {
         });
     }
 
+    showOptions = () => {
+        const options = Array.from(document.querySelectorAll('.option'));
+
+        options.forEach(option => {
+            option.style.visibility='visible';
+        })
+    }
+
+    handleHints = () => {
+        if(this.state.hints > 0) {
+            const options = Array.from(document.querySelectorAll('.option'));
+        let indexOfAnswer;
+
+        options.forEach((option,index) => {
+            if(option.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
+                indexOfAnswer = index;
+            }
+        });
+
+        while (true) {
+            const randomNumber = Math.round(Math.random() *3);
+            if(randomNumber !== indexOfAnswer && !this.state.previousRandomNumbers.includes(randomNumber)){
+                options.forEach((option,index) => {
+                    if(index === randomNumber){
+                        option.style.visibility = 'hidden';
+                        this.setState((prevState) =>({
+                            hints : prevState.hints-1,
+                            previousRandomNumbers:prevState.previousRandomNumbers.concat(randomNumber)
+                        }))
+                    }
+                });
+                break;
+            }
+            if(this.state.previousRandomNumbers.length >=3) break;
+        }
+        }
+    }
+ 
+
     render (){
-        const { currentQuestion,currentQuestionIndex,numberofQuestions } = this.state;
+        const { currentQuestion,currentQuestionIndex,numberofQuestions,hints } = this.state;
         return (
             <Fragment>
                 <Helmet><title>Quiz page</title></Helmet>
@@ -164,10 +207,12 @@ class Play extends Component {
                         <h2>Quiz Mode</h2>
                         <div className="lifeline-container">
                             <p>
-                                <span className="mdi mdi-set-center mdi-24px lifeline-icon"></span><span className="lifeline">2</span>
+                                <span className="mdi mdi-set-center mdi-24px lifeline-icon"></span>
+                                <span className="lifeline">2</span>
                             </p>
                             <p>
-                                <span className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"></span><span className="lifeline">5</span>
+                                <span  onClick={this.handleHints} className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"></span>
+                                <span  >{hints}</span>
                             </p>
                         </div>
                         <div>
