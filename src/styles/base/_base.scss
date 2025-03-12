@@ -18,3 +18,10 @@ body {
     border-radius: 5px !important;
     color: #f8f8f8 !important;
 }
+
+.disable {
+    background-color: #f8f8f8 !important;
+    box-shadow: none !important;
+    opacity: 0.9 !important;
+    pointer-events: none;
+}
