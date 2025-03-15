@@ -1,0 +1,92 @@
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #4CAF50;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  h4 {
+    font-size: 1.2rem;
+    color: #ff5722;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+  }
+  
+  ul li {
+    margin: 10px 0;
+  }
+  
+  ul li a {
+    text-decoration: none;
+    color: #2196F3;
+    padding: 10px 20px;
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    font-size: 1rem;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  ul li a:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .success-icon {
+    font-size: 4rem;
+    color: #4CAF50;
+    margin-bottom: 20px;
+  }
+  
+  .no-stats {
+    font-size: 1.2rem;
+    color: #ff5722;
+    margin-bottom: 30px;
+  }
+  
+  /* Centering "Quiz has ended" */
+  .quiz-ended {
+    margin: 40px 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4CAF50;
+  }
+  
